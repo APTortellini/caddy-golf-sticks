@@ -1,0 +1,37 @@
+# Just a fancy name
+(cobalt_proxy_upstream) {
+    
+	# This directive instruct caddy to handle only request which begins with /ms/ (http-get block config pre-defined in the malleable profile for testing purposes)
+    handle /ms/* {
+       
+	    # This is our list of User Agents we want to block
+		@ua_denylist {
+			import ../filters/bad_ua.caddy
+		}
+
+		# This is our list of IPs we want to block
+		@ip_denylist {
+			import ../filters/bad_ips.caddy
+		}
+
+		header {
+			import ../filters/headers_standard.caddy
+		}
+
+		# Respond 403 to blocked User-Agents
+		route @ip_denylist {
+
+             redir https://cultofthepartyparrot.com/ #redir to another site like, for example, an external supplier site which provides services for the company you are targeting ( sneaky move I know..)
+        }
+
+		
+		# Respond 403 to blocked IPs
+		route @ip_denylist {
+
+             redir https://cultofthepartyparrot.com/ #redir to another site like, for example, an external supplier website which provides services for the company you are targeting ( sneaky move I know..) 
+        }
+
+	 	# Reverse proxy to our cobalt strike server on port 443 https
+    	import reverse_proxy/cobalt.caddy
+	}
+}

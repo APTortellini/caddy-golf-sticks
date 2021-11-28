@@ -1,0 +1,20 @@
+https://cdn.aptortellini.cloud {
+
+	# Import the proxy upstream for the cobalt beacon
+    import cobalt_proxy_upstream
+
+    # Default security headers and custom header to mislead fingerprinting
+    header {
+            import ../filters/headers_standard.caddy
+    }
+	
+	# Put caddy logs to a specified location
+    log {
+	    output file sites/logs/cdn.aptortellini.cloud.log
+	    format console
+	}
+		
+	# Define the root folder for the content of the website if you want to serve one
+	root * www/cdn.aptortellini.cloud
+    file_server
+}

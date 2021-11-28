@@ -1,0 +1,15 @@
+# This are the default ports which instruct caddy to respond where all other configuration are not matched
+:80, :443 {
+	# Default security headers and custom header to mislead fingerprinting
+    header {
+        import filters/headers_standard.caddy
+    }
+	# Just respond "OK" in the body and put the http status code 200 (change this as you desire)
+    respond "OK" 200
+}
+
+#Import all upstreams configuration files (only with .caddy extension)
+import upstreams/*.caddy
+
+#Import all sites configuration files (only with .caddy extension)
+import sites/*.caddy

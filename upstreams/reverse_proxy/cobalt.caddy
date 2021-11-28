@@ -1,0 +1,16 @@
+reverse_proxy https://<cobalt_strike_endpoint> {
+    
+	# This directive put the original X-Forwarded-for header value in the upstream X-Forwarded-For header, you need to use this configuration for example if you are behind cloudfront in order to obtain the correct external ip of the machine you just compromised
+    header_up X-Forwarded-For {http.request.header.X-Forwarded-For}
+	
+	# Standard reverse proxy upstream headers
+	header_up Host {upstream_hostport}
+    header_up X-Forwarded-Host {host}
+    header_up X-Forwarded-Port {port}
+    
+	# Caddy will not check for SSL certificate to be valid if we are defining the <cobalt_strike_endpoint> with an ip address instead of a domain
+	transport http {
+        tls
+        tls_insecure_skip_verify
+    }
+}
